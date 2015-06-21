@@ -23,7 +23,7 @@ class Flagpole
   end
 
   def bitmap(num, size)
-    ("%0#{size}d" % num.to_s(2)).chars.reverse.map { |i| i == "1" }
+    Array.new(size).map.with_index { |_, i| num[i] == 1 }
   end
   private :bitmap
 end
