@@ -18,13 +18,14 @@ class Flagpole
 
   # Public: Set a specific flag by name.
   #
-  # key   - One of the flag names passed to the initializer.
+  # flag  - One of the flag names passed to the initializer.
   # value - A Boolean.
   #
   # Returns nothing.
-  def []=(key, val)
-    fail ArgumentError, "#{key} isn't a valid key" unless @flags.key?(key)
-    @flags[key] = val
+  # Raises ArgumentError if passed a flag that isn't in the set.
+  def []=(flag, val)
+    fail ArgumentError, "#{flag} isn't a valid flag" unless @flags.key?(flag)
+    @flags[flag] = val
   end
 
   # Public: Returns the current value of the flag set as an Integer.
