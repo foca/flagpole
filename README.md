@@ -51,11 +51,39 @@ notifications_via.to_h #=> { email: true, sms: true, phone_push: false, twitter:
 
 As you see, the values are maintained.
 
+If you wanted the new flag to default to `true`, you just need to increment all
+the values. You do this by using `#value_of`:
+
+``` ruby
+flags = Flagpole([:email, :sms, :phone_push, :twitter])
+flags.value_of(:twitter) #=> 8
+```
+
+Now all you have to do is add `8` to all your stored values, and voila, everyone
+has twitter notifications enabled.
+
 ## I want to remove an existing flag
 
-Don't.
+In order to remove a flag, you will need to modify the integer values from your
+storage. Assuming the example from above, let's say you no longer wish to
+support SMS notifications.
 
-Just ignore it in your code. Change the flag name to `:_` if it helps you.
+In order to find out the value to substract, you can use `#value_of`:
+
+``` ruby
+flags = Flagpole([:email, :sms, :phone_push, :twitter])
+flags.value_of(:sms) #=> 2
+```
+
+Now you need to substract 2 from all the values that _have the SMS flag set_. In
+order to do this, you need to do a _bitwise and_ between the value and `2`.
+Those that are non-zero, are the ones that have it set. In SQL this would be:
+
+``` sql
+UPDATE users
+SET notification_settings = notification_settings - 2
+WHERE notification_settings & 2 <> 0
+```
 
 ## License
 

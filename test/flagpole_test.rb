@@ -51,3 +51,10 @@ test "adding a flag at the end keeps the values consistent" do
 
   assert_equal hash, Flagpole.new(5, [:a, :b, :c, :d]).to_h
 end
+
+test "can find out the integer value of a specific flag" do
+  flags = Flagpole.new([:a, :b, :c])
+  assert_equal 1, flags.value_of(:a)
+  assert_equal 2, flags.value_of(:b)
+  assert_equal 4, flags.value_of(:c)
+end

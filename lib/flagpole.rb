@@ -40,6 +40,19 @@ class Flagpole
     @flags
   end
 
+  # Public: Find the integer value of a single flag, regardless of whether it is
+  # set or not. This value can then be added/substracted from the integer value
+  # of this set for low-level manipulation of the flag set.
+  #
+  # flag - The name of a flag.
+  #
+  # Returns an Integer.
+  # Raises ArgumentError if passed a flag that isn't in the set.
+  def value_of(flag)
+    fail ArgumentError, "#{flag} isn't a valid flag" unless @flags.key?(flag)
+    2 ** @flags.keys.index(flag)
+  end
+
   # Internal: Generate the list of bits that make a given number. Each index of
   # the array corresponds to the bit for 2**index.
   #
